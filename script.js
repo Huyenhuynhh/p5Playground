@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
         mode: "javascript",
         theme: "default",
         lineNumbers: true,
+        viewportMargin: Infinity,
         readOnly: false
     });
 
@@ -32,10 +33,11 @@ document.addEventListener('DOMContentLoaded', function() {
         iframeDoc.write('<html><head><script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script></head><body><script>' + code + '<\/script></body></html>');
         iframeDoc.close();
 
-        editor.setOption("readOnly", true);
+        editor.setOption("readOnly", "nocursor");
 
         // disable the run button and changes its color
         runButton.disabled = true;
+        runButton.classList.add('button-disabled');
         runButton.style.backgroundColor = '#cccccc';
         runButton.style.cursor = 'not-allowed';
     }
@@ -48,6 +50,7 @@ document.addEventListener('DOMContentLoaded', function() {
         runButton.disabled = false;
         runButton.style.backgroundColor = '';
         runButton.style.cursor = '';
+        runButton.classList.remove('button-disabled');
     }
 
     function showCopySuccessMessage() {
