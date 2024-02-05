@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>p5Playground</title>
+    <!-- CodeMirror CSS-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/codemirror.min.css">
+     <link rel="stylesheet" href="styles.css">
+    <style>
+        #code-editor { height: 200px; }
+        #display-container { margin-top: 220px; }
+    </style>
+    <!-- CodeMirror JS and other modes-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/mode/javascript/javascript.min.js"></script>
+    <!-- P5js library-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="editor-and-button">
+        <button id="runButton">Run</button>
+        <div id="code-editor"></div>
+    </div>
+    <div id="display-container"></div> <!--placeholder for output-->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // initialize code mirror instance
+            var editor = CodeMirror(document.getElementById('code-editor'), {
+                mode: "javascript",
+                theme: "default",
+                lineNumbers: true
+            });
+
+            // function to run code from the editor
+            function runCode() {
+                let code = editor.getValue();
+                let iframe = document.createElement('iframe');
+                iframe.style.width = '100%';
+                iframe.style.height = '400px';
+                document.getElementById('display-container').innerHTML = '';
+                document.getElementById('display-container').appendChild(iframe);
+
+                let iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+                iframeDoc.open();
+                iframeDoc.write('<html><head><script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script></head><body><script>' + code + '<\/script></body></html>');
+                iframeDoc.close();
+            }
+
+            // add a button to run the code 
+            var runButton = document.getElementById('runButton');
+            runButton.onclick = runCode;
+        });
+    </script>
+    
+</body>
+</html>
+
+
+
+
+
+.editor-and-button {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; /* align the run button to the right */
+    flex: 1;  /* allow the container to grow */
+}
+
+#code-editor {
+    height: 400px; 
+    border: 1px solid green;
+    background-color: #fff;
+    width: 100%;
+}
+
+#display-container {
+    flex: 1; /* allow the container to grow */
+    margin-left: 20px; /* space between the editor and the output container */
+}
+
+body {
+    display: flex;
+}
+
+#runButton {
+    margin-bottom: 10px; /* space between the button and the editor */
+}
+
+
+
+
+    // Function to reset the editor and output
+    function resetEditor() {
+        editor.setValue(currentCodeBackup); // clear the editor
+        var displayContainer = document.getElementById('display-container');
+        displayContainer.innerHTML = '';
+    }
