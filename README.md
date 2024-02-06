@@ -2,7 +2,10 @@
 
 ## Overview
 
-The p5.js Code Playground is an interactive web application designed to provide users with a platform to write, run, and experiment with p5.js sketches directly in the browser 
+The p5.js Code Playground is an interactive web application designed to provide users with a platform to write, run, and experiment with p5.js sketches directly in the browser.
+
+P5Playground can be used at https://huyenhuynhh.github.io/p5Playground/
+
 
 ## Features
 
