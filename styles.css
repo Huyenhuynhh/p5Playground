@@ -16,7 +16,7 @@
 #code-editor {
     font-size: medium;
     height: 700px;
-    border: 1px solid #ccc; /* visibility */
+    border: 1px solid #fff; /* visibility */
     margin-bottom: 10px; /* space between editor and buttons */
 }
 
@@ -32,10 +32,13 @@
 
 #display-container {
     flex: 1;
+    flex-grow: 1;
     width: 50%;
     height: 700px;
-    border: 0.5px solid #ccc;  /* visibility */
+    border: 1.0px solid #fff;  /* visibility */
     margin-left: 20px;
+    position: relative;
+    overflow: auto;
 }
 
 button {
@@ -71,4 +74,35 @@ button:focus {
     box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5);
 }
 
+
+body {
+    background-color: #121212; 
+    color: #e0e0e0; 
+}
+
+.page-header {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    padding: 10px;
+    background-color: #333; 
+}
+
+.logo {
+    height: 80px;
+    margin-right: 20px;
+}
+
+.page-header h1 {
+    margin: 0;
+    font-size: 24px;
+    color: #fff; 
+}
+
+
+.editor-container, #display-container, .CodeMirror, .CodeMirror-scroll {
+    background-color: #252526; 
+    color: #fff; 
+    border-color: #444; 
+}
 

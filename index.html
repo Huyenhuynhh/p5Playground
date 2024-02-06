@@ -4,17 +4,25 @@
     <title>p5Playground</title>
     <!-- CodeMirror CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/codemirror.min.css">
+    <!-- dracula theme -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.2/theme/darcula.min.css">
     <!-- External Stylesheet Link -->
     <link rel="stylesheet" href="styles.css">
     <!-- CodeMirror JS and other modes -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/codemirror.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.0/mode/javascript/javascript.min.js"></script>
     <!-- P5js library -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.9.0/p5.min.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
+<header class="page=header">
+    <img src="assets/logo.png" alt="Logo" class="logo">
+    <h1>p5js editor</h1>
+</header>
 <body>
+    <div id="frameCounter">Frames: 0</div>
+
     <div class="layout-container">
         <div class="editor-container">
             <div id="code-editor"></div>
@@ -27,6 +35,8 @@
         </div>
         <div id="display-container"></div> <!-- placeholder for output -->
     </div>
+
+    <script src="custom-script.js"></script>
     <script src="script.js"></script>
 </body>
 </html>

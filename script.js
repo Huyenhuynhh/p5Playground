@@ -2,14 +2,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize CodeMirror instance
     var editor = CodeMirror(document.getElementById('code-editor'), {
         mode: "javascript",
-        theme: "default",
+        theme: 'darcula',
         lineNumbers: true,
         viewportMargin: Infinity,
         readOnly: false
     });
-
-    // Variable to store the current editor content before execution
-    //var currentCodeBackup = editor.getValue(); // Initialize with the initial content of the editor
 
     var runButton = document.getElementById('runButton');
     var editButton = document.getElementById('editButton');
@@ -17,40 +14,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Function to run code from the editor
     function runCode() {
-        //currentCodeBackup = editor.getValue();
-        
         let code = editor.getValue();
-        let displayContainer = document.getElementById('display-container');
-        displayContainer.innerHTML = '';
 
-        let iframe = document.createElement('iframe');
-        iframe.style.width = '100%';
-        iframe.style.height = '400px';
-        displayContainer.appendChild(iframe);
-
-        let iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
-        iframeDoc.open();
-        iframeDoc.write('<html><head><script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script></head><body><script>' + code + '<\/script></body></html>');
-        iframeDoc.close();
-
-        editor.setOption("readOnly", "nocursor");
+        // call a function from custom-script.js to handle the execution
+        executeUserCodeWithFrameCount(code);
 
         // disable the run button and changes its color
+        editor.setOption("readOnly", "nocursor");
         runButton.disabled = true;
         runButton.classList.add('button-disabled');
         runButton.style.backgroundColor = '#cccccc';
         runButton.style.cursor = 'not-allowed';
-    }
-
-    function enableEditing() {
-        // make sure the editor is editable
-        editor.setOption("readOnly", false);
-
-        // enable the run button so user can execute code again
-        runButton.disabled = false;
-        runButton.style.backgroundColor = '';
-        runButton.style.cursor = '';
-        runButton.classList.remove('button-disabled');
     }
 
     function showCopySuccessMessage() {
@@ -85,14 +59,46 @@ document.addEventListener('DOMContentLoaded', function() {
         })
     }
 
+    function resetAndRunCode() {
+        let displayContainer = document.getElementById('display-container');
+        displayContainer.innerHTML = '';
+
+        // re-run the code, re-creating the iframe and re-initalizong p5 environment
+        runCode();
+    }
+
+    window.updateFrameCount = function(frameCount) {
+        document.getElementById('frameCounter').innerText = `Frames: ${frameCount}`;
+    };
+
     // Attach event listeners
-    runButton.addEventListener('click', runCode);
-    editButton.addEventListener('click', enableEditing);
-    resetButton.addEventListener('click', function() {
-        enableEditing();
+    runButton.addEventListener('click', function() {
+        const userCode = editor.getValue();
+        executeUserCodeWithFrameCount(userCode); // This function is defined in custom-script.js
     });
 
+    // make sure editing re-enables the "Run" button directly
+    editButton.addEventListener('click', function() {
+        editor.setOption("readOnly", false);
+
+        // enable the run button so user can execute code again
+        runButton.disabled = false;
+        runButton.style.backgroundColor = '';
+        runButton.style.cursor = '';
+        runButton.classList.remove('button-disabled');
+
+        editor.focus();
+    });
+
+    //  resetButton re-executes the current code in the editor
+    resetButton.addEventListener('click', function() {
+        document.getElementById('frameCounter').innerText = 'Frames: 0'; // reset frame count display
+        runButton.click(); 
+    });
+
+
     // Assuming the reset functionality is as before, resetting execution environment
-    document.getElementById('resetButton').addEventListener('click', runCode);
+    document.getElementById('resetButton').addEventListener('click', resetAndRunCode);
+    document.getElementById('runButton').addEventListener('click', runCode);
     document.getElementById('copyButton').addEventListener('click', copyCode);
 });
