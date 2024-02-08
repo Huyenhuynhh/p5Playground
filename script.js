@@ -4,7 +4,6 @@ document.addEventListener('DOMContentLoaded', function() {
         mode: "javascript",
         theme: 'darcula',
         lineNumbers: true,
-        viewportMargin: Infinity,
         readOnly: false
     });
 
@@ -15,16 +14,37 @@ document.addEventListener('DOMContentLoaded', function() {
     // Function to run code from the editor
     function runCode() {
         let code = editor.getValue();
+        let displayContainer = document.getElementById('display-container');
+        displayContainer.innerHTML = '';
 
-        // call a function from custom-script.js to handle the execution
-        executeUserCodeWithFrameCount(code);
+        let iframe = document.createElement('iframe');
+        iframe.style.width = '100%';
+        iframe.style.height = '400px';
+        displayContainer.appendChild(iframe);
+
+        let iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+        iframeDoc.open();
+        iframeDoc.write('<html><head><script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script></head><body><script>' + code + '<\/script></body></html>');
+        iframeDoc.close();
+
+        editor.setOption("readOnly", "nocursor");
 
         // disable the run button and changes its color
         editor.setOption("readOnly", "nocursor");
         runButton.disabled = true;
-        runButton.classList.add('button-disabled');
         runButton.style.backgroundColor = '#cccccc';
         runButton.style.cursor = 'not-allowed';
+    }
+
+    function enableEditing() {
+        // make sure the editor is editable
+        editor.setOption("readOnly", false);
+
+        // enable the run button so user can execute code again
+        runButton.disabled = false;
+        runButton.style.backgroundColor = '';
+        runButton.style.cursor = '';
+        runButton.classList.remove('button-disabled');
     }
 
     function showCopySuccessMessage() {

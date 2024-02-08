@@ -6,8 +6,6 @@
 
 .editor-container {
     max-width: 50%; 
-    max-height: 750px;
-    position: relative;
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -16,26 +14,15 @@
 #code-editor {
     font-size: medium;
     height: 700px;
-    border: 1px solid #fff; /* visibility */
+    border: 1px solid #ccc; /* visibility */
     margin-bottom: 10px; /* space between editor and buttons */
-}
-
-.CodeMirror {
-    height: auto;
-    border: 1px solid #eee;
-}
-
-.CodeMirror-scroll {
-    overflow-y: auto;
-    max-height: 700px;
 }
 
 #display-container {
     flex: 1;
-    flex-grow: 1;
     width: 50%;
     height: 700px;
-    border: 1.0px solid #fff;  /* visibility */
+    border: 0.5px solid #ccc;  /* visibility */
     margin-left: 20px;
     position: relative;
     overflow: auto;
@@ -55,7 +42,7 @@ button {
 
 .button-container {
     justify-content: flex-end;
-    margin-top: auto;
+    width: 100%;
     display: flex;
     gap: 10px;
 }
