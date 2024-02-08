@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', function() {
+    // parse url parameters to check for 'code'
+    const urlParams = new URLSearchParams(window.location.search);
+    const codeFromURL = urlParams.get('code'); // "code" is the expected URL parameter name
+
     // Initialize CodeMirror instance
     var editor = CodeMirror(document.getElementById('code-editor'), {
         mode: "javascript",
@@ -7,14 +11,12 @@ document.addEventListener('DOMContentLoaded', function() {
         readOnly: false
     });
 
-    // parse url parameters to check for 'code'
-    const urlParams = new URLSearchParams(window.location.search);
-    const codeFromURL = urlParams.get('code'); // "code" is the expected URL parameter name
-
     // if 'code' parameters is present in the url, decode and load it into the editor
     if (codeFromURL) {
         const decodedCode = decodeURIComponent(codeFromURL);
         editor.setValue(decodedCode);
+
+        executeUserCodeWithFrameCount(decodedCode); 
     }
 
     var runButton = document.getElementById('runButton');
@@ -128,3 +130,30 @@ document.addEventListener('DOMContentLoaded', function() {
     document.getElementById('runButton').addEventListener('click', runCode);
     document.getElementById('copyButton').addEventListener('click', copyCode);
 });
+
+function executeUserCodeWithFrameCount(userCode) {
+    // Implementation similar to previously discussed, ensuring a safe execution context within an iframe
+    let iframe = document.getElementById('display-container').querySelector('iframe');
+    if (!iframe) {
+        iframe = document.createElement('iframe');
+        iframe.style.cssText = 'width: 100px; height: 100px; border: 1px solid #121212;';
+        document.getElementById('display-container').appendChild(iframe);
+    }
+
+    let iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+    iframeDoc.open();
+    iframeDoc.write(`
+        <html>
+            <head>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+            </head>
+            <body>
+                <script>${userCode}</script>
+                <script>
+                    // Additional script for frame counting or other functionalities
+                </script>
+            </body>
+        </html>
+    `);
+    iframeDoc.close();
+}
