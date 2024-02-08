@@ -7,12 +7,23 @@ document.addEventListener('DOMContentLoaded', function() {
         readOnly: false
     });
 
+    // parse url parameters to check for 'code'
+    const urlParams = new URLSearchParams(window.location.search);
+    const codeFromURL = urlParams.get('code'); // "code" is the expected URL parameter name
+
+    // if 'code' parameters is present in the url, decode and load it into the editor
+    if (codeFromURL) {
+        const decodedCode = decodeURIComponent(codeFromURL);
+        editor.setValue(decodedCode);
+    }
+
     var runButton = document.getElementById('runButton');
     var editButton = document.getElementById('editButton');
     var resetButton = document.getElementById('resetButton');
 
     // Function to run code from the editor
     function runCode() {
+
         let code = editor.getValue();
         let displayContainer = document.getElementById('display-container');
         displayContainer.innerHTML = '';
@@ -40,17 +51,6 @@ document.addEventListener('DOMContentLoaded', function() {
         runButton.disabled = true;
         runButton.style.backgroundColor = '#cccccc';
         runButton.style.cursor = 'not-allowed';
-    }
-
-    function enableEditing() {
-        // make sure the editor is editable
-        editor.setOption("readOnly", false);
-
-        // enable the run button so user can execute code again
-        runButton.disabled = false;
-        runButton.style.backgroundColor = '';
-        runButton.style.cursor = '';
-        runButton.classList.remove('button-disabled');
     }
 
     function showCopySuccessMessage() {
