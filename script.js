@@ -136,7 +136,7 @@ function executeUserCodeWithFrameCount(userCode) {
     let iframe = document.getElementById('display-container').querySelector('iframe');
     if (!iframe) {
         iframe = document.createElement('iframe');
-        iframe.style.cssText = 'width: 100px; height: 100px; border: 1px solid #121212;';
+        iframe.style.cssText = 'width: 100px; height: 100px; border: none';
         document.getElementById('display-container').appendChild(iframe);
     }
 
