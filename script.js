@@ -19,8 +19,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
         let iframe = document.createElement('iframe');
         iframe.style.width = '100%';
-        iframe.style.height = '400px';
+        iframe.style.height = '100%';
+        iframe.style.border = 'none';
         displayContainer.appendChild(iframe);
+
+        iframe.onload = function() {
+            iframe.contentWindow.document.body.style.margin = "0";
+            iframe.contentWindow.document.body.style.padding = "0";
+        };
 
         let iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
         iframeDoc.open();
