@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initialize CodeMirror instance
     var editor = CodeMirror(document.getElementById('code-editor'), {
         mode: "javascript",
-        theme: 'darcula',
+        theme: 'default',
         lineNumbers: true,
         readOnly: false
     });
